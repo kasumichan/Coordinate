@@ -4,8 +4,7 @@
 
 #include "Quadrilateral.h"
 
-Quadrilateral::Quadrilateral() {
-}
+Quadrilateral::Quadrilateral() = default;
 
 Quadrilateral::Quadrilateral(const QVector<Point> &pointList)
         : Element(pointList) {

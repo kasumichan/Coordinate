@@ -4,8 +4,7 @@
 
 #include "Element.h"
 
-Element::Element() {
-}
+Element::Element() = default;
 
 Element::Element(const QVector<Point> &pointList)
         : pointList(pointList) {
@@ -19,12 +18,13 @@ QVector<Point> Element::getPointList() const {
     return pointList;
 }
 
-void Element::setAxis(const Axis &axis) {
-    this->axis = axis;
+void Element::setAxis(const Axis &_axis) {
+    this->axis = _axis;
 }
 
-void Element::setID(const int id) {
-    this->id = id;
+
+void Element::setID(int _id) {
+    this->id = _id;
 }
 
 Axis Element::getAxis() const {

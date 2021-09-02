@@ -25,10 +25,8 @@ Point Triangle::centroid() const {
 }
 
 float Triangle::size() const {
-    Point one = pointList[1] - pointList[0];
-    Point another = pointList[2] - pointList[0];
-    QVector3D oneSide(one.x(), one.y(), one.z());
-    QVector3D anotherSide(another.x(), another.y(), another.z());
+    Point oneSide = pointList[1] - pointList[0];
+    Point anotherSide = pointList[2] - pointList[0];
     return QVector3D::crossProduct(oneSide, anotherSide).length() / 2;
 }
 

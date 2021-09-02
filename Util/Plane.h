@@ -11,16 +11,16 @@
 
 class Plane {
 private:
-    float A;
-    float B;
-    float C;
-    float D;
+    float A{};
+    float B{};
+    float C{};
+    float D{};
     QVector3D normalVector;
 
 public:
     Plane();
 
-    Plane(const QVector<Point> &pointList);
+    explicit Plane(const QVector<Point> &pointList);
 
     Plane(const Point &a, const Point &b, const Point &c);
 

@@ -11,7 +11,7 @@ class Tetrahedron : public Element {
 public:
     Tetrahedron();
 
-    Tetrahedron(const QVector<Point> &pointList);
+    explicit Tetrahedron(const QVector<Point> &pointList);
 
     Tetrahedron(const Tetrahedron &tetrahedron);
 

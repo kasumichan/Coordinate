@@ -5,8 +5,7 @@
 #include "Tetrahedron.h"
 #include "Triangle.h"
 
-Tetrahedron::Tetrahedron() {
-}
+Tetrahedron::Tetrahedron() = default;
 
 Tetrahedron::Tetrahedron(const QVector<Point> &pointList) : Element(pointList) {
     elementList = {
@@ -38,5 +37,5 @@ float Tetrahedron::size() const {
 }
 
 Plane Tetrahedron::getPlane() const {
-    return Plane(centroid(), pointList[0], pointList[1]);
+    return Plane{centroid(), pointList[0], pointList[1]};
 }

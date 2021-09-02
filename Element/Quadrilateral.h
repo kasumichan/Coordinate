@@ -15,7 +15,7 @@ private:
 public:
     Quadrilateral();
 
-    Quadrilateral(const QVector<Point> &pointList);
+    explicit Quadrilateral(const QVector<Point> &pointList);
 
     Quadrilateral(const Quadrilateral &quadrilateral);
 

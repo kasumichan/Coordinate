@@ -19,25 +19,25 @@ private:
     QVector<Element *> elementPointerList;
     QMatrix4x4 rotateMat;
     QPoint mousePos;
-    int ratio;
+    float ratio;
     bool mousePressed;
 
 public:
-    Canvas(QVector<Element *> elementPointerList, QWidget *parent = nullptr);
+    explicit Canvas(QVector<Element *> elementPointerList, QWidget *parent = nullptr);
 
 
 protected:
-    void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent *event) override;
 
-    void mousePressEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event) override;
 
-    void mouseMoveEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event) override;
 
-    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event) override;
 
-    void wheelEvent(QWheelEvent *event);
+    void wheelEvent(QWheelEvent *event) override;
 
-    QPointF getPoint(const QVector3D &vt, int ratio) const;
+    static QPointF getPoint(const QVector3D &vt, float ratio) ;
 
     void draw(const QVector<Point> &vertexList, const QVector<QVector<int>> &elementList,
               const Axis &axis, QPainter &painter) const;

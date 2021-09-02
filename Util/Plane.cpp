@@ -5,8 +5,7 @@
 #include "Plane.h"
 #include <QDebug>
 
-Plane::Plane() {
-}
+Plane::Plane() = default;
 
 Plane::Plane(const QVector<Point> &pointList) {
     if (pointList.count() < 3) {

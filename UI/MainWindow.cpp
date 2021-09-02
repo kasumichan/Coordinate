@@ -30,7 +30,7 @@ void MainWindow::initUI() {
 }
 
 void MainWindow::initLayout() {
-    QVBoxLayout *vBoxLayout = new QVBoxLayout();
+    auto *vBoxLayout = new QVBoxLayout();
     vBoxLayout->addWidget(inputTypeBox);
     vBoxLayout->addWidget(inputBtn);
     vBoxLayout->addWidget(confirmBtn);

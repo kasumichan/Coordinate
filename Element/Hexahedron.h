@@ -11,7 +11,7 @@ class Hexahedron : public Element {
 public:
     Hexahedron();
 
-    Hexahedron(const QVector<Point> &pointList);
+    explicit Hexahedron(const QVector<Point> &pointList);
 
     Hexahedron(const Hexahedron &hexahedron);
 

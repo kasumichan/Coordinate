@@ -22,9 +22,9 @@ private:
 public:
     CalculateAxis(float *coordinateData, int inputType);
     void work();
-    void processLine(std::string line);
-    void input(QString fileName="../Data/input.txt");
-    void output(QString fileName="../Data/output.txt");
+    void processLine(const std::string& line);
+    void input(const QString& fileName="../Data/input.txt");
+    void output(const QString& fileName="../Data/output.txt");
     void addAxis();
 };
 

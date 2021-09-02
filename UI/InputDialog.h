@@ -22,7 +22,7 @@ private:
     QPushButton *cancel;
 
 public:
-    InputDialog(int dim, QWidget *parent = nullptr);
+    explicit InputDialog(int dim, QWidget *parent = nullptr);
 
     void initUI();
 
@@ -32,9 +32,9 @@ public:
 
 private slots:
 
-    void accept();
+    void accept() override;
 
-    void reject();
+    void reject() override;
 
 signals:
 

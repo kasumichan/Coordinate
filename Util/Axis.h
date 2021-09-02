@@ -16,7 +16,7 @@ private:
 public:
     Axis();
 
-    Axis(Point base, QVector3D x, QVector3D y, QVector3D z);
+    Axis(const Point &base, const QVector3D &x, const QVector3D &y, const QVector3D &z);
 
     Point getBase() const;
 

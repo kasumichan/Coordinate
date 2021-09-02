@@ -12,7 +12,7 @@ private:
 public:
     Triangle();
 
-    Triangle(const QVector<Point> &pointList);
+    explicit Triangle(const QVector<Point> &pointList);
 
     Triangle(const Triangle &triangle);
 

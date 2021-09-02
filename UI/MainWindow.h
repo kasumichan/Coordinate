@@ -21,7 +21,7 @@ private:
     QPushButton *confirmBtn;
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     void initUI();
     void initLayout();
     void addListener();

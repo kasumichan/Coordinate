@@ -4,6 +4,7 @@
 
 #include <QPushButton>
 #include <QGridLayout>
+#include <QValidator>
 #include "InputDialog.h"
 
 
@@ -25,8 +26,11 @@ void InputDialog::initUI() {
         numLabel[i]->setText(QString::number(i + 1));
     }
 
+    auto* qDoubleValidator = new QDoubleValidator(-100, 100, 5);
+    qDoubleValidator->setNotation(QDoubleValidator::StandardNotation);
     for (int i = 0; i < 3 * dimension; ++i) {
         edit[i] = new QLineEdit(this);
+        edit[i]->setValidator(qDoubleValidator);
     }
 
     for (int i = 0; i < 3; ++i) {
@@ -40,8 +44,8 @@ void InputDialog::initUI() {
 
 void InputDialog::initLayout() {
     setWindowTitle("Input Coordinate");
-    resize(900, 50 * dimension);
-    QGridLayout *layout = new QGridLayout(this);
+    resize(600, 50 * dimension);
+    auto *layout = new QGridLayout(this);
     for (int i = 0; i < 3; ++i)
         layout->addWidget(charLabel[i], 1, i + 2);
     for (int i = 0; i < dimension; ++i) {
@@ -61,7 +65,7 @@ void InputDialog::addListener() {
 }
 
 void InputDialog::accept() {
-    float *data = new float[3 * dimension];
+    auto *data = new float[3 * dimension];
     for (int i = 0; i < 3 * dimension; ++i) {
         data[i] = edit[i]->text().toDouble();
     }

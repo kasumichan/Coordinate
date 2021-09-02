@@ -15,7 +15,7 @@ CalculateAxis::CalculateAxis(float *coordinateData, int inputType) {
     this->inputType = inputType;
 }
 
-void CalculateAxis::input(QString fileName) {
+void CalculateAxis::input(const QString &fileName) {
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qDebug() << "error";
@@ -30,7 +30,7 @@ void CalculateAxis::input(QString fileName) {
     addAxis();
 }
 
-void CalculateAxis::output(QString fileName) {
+void CalculateAxis::output(const QString &fileName) {
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qDebug() << "error";
@@ -56,7 +56,7 @@ void CalculateAxis::output(QString fileName) {
     file.close();
 }
 
-void CalculateAxis::processLine(std::string line) {
+void CalculateAxis::processLine(const std::string &line) {
     QVector<Point> pointList;
     QVector<std::string> res;
     std::string result;
@@ -66,8 +66,7 @@ void CalculateAxis::processLine(std::string line) {
         res.push_back(result);
     }
     if (res[0] == "NODE") {
-        node[res[1]] = {atof(res[2].c_str()), atof(res[3].c_str()),
-                        atof(res[4].c_str())};
+        node[res[1]] = {std::stof(res[2]), std::stof(res[3]), std::stof(res[4])};
     } else {
         if (res[0] == "SHELL") {
             for (int i = 2; i < 5; ++i) {
@@ -85,41 +84,35 @@ void CalculateAxis::processLine(std::string line) {
             }
             elementPointerList.push_back(new Hexahedron(pointList));
         }
-        elementPointerList[elementPointerList.size() - 1]->setID(atoi(res[1].c_str()));
+        elementPointerList[elementPointerList.size() - 1]->setID(std::stoi(res[1]));
     }
 
 }
 
 void CalculateAxis::addAxis() {
     for (auto elementPointer: elementPointerList) {
+
+        QVector3D x{coordinateData[3] - coordinateData[0],
+                    coordinateData[4] - coordinateData[1],
+                    coordinateData[5] - coordinateData[2]};
+        x.normalize();
         switch (inputType) {
             case 0: {
-                QVector3D x(coordinateData[3] - coordinateData[0],
-                            coordinateData[4] - coordinateData[1],
-                            coordinateData[5] - coordinateData[2]);
-                x.normalize();
-                QVector3D y(coordinateData[6] - coordinateData[0],
+                QVector3D y{coordinateData[6] - coordinateData[0],
                             coordinateData[7] - coordinateData[1],
-                            coordinateData[8] - coordinateData[2]);
-                y.normalize();
+                            coordinateData[8] - coordinateData[2]};
+                y = (y - x * QVector3D::dotProduct(x, y)).normalized();
                 QVector3D z = QVector3D::crossProduct(x, y).normalized();
                 elementPointer->setAxis(Axis(elementPointer->centroid(), x, y, z));
                 break;
             }
             case 1: {
-                QVector3D x(coordinateData[3] - coordinateData[0],
-                            coordinateData[4] - coordinateData[1],
-                            coordinateData[5] - coordinateData[2]);
-                x.normalize();
                 QVector3D z = elementPointer->getPlane().getNormalVector();
                 QVector3D y = QVector3D::crossProduct(z, x).normalized();
                 elementPointer->setAxis(Axis(elementPointer->centroid(), x, y, z));
                 break;
             }
             case 2: {
-                QVector3D x(coordinateData[3] - coordinateData[0],
-                            coordinateData[4] - coordinateData[1],
-                            coordinateData[5] - coordinateData[2]);
                 QVector3D z = elementPointer->getPlane().getNormalVector();
                 x = (x - QVector3D::dotProduct(x, z) * z).normalized();
                 QVector3D y = QVector3D::crossProduct(z, x).normalized();
@@ -135,6 +128,6 @@ void CalculateAxis::addAxis() {
 void CalculateAxis::work() {
     input();
     output();
-    Canvas *canvas = new Canvas(elementPointerList);
+    auto *canvas = new Canvas(elementPointerList);
     canvas->show();
 }

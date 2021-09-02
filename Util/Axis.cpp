@@ -4,10 +4,9 @@
 
 #include "Axis.h"
 
-Axis::Axis() {
-}
+Axis::Axis() = default;
 
-Axis::Axis(Point base, QVector3D x, QVector3D y, QVector3D z) {
+Axis::Axis(const Point &base, const QVector3D &x, const QVector3D &y, const QVector3D &z) {
     this->base = base;
     this->x = x;
     this->y = y;

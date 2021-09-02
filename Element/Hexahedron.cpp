@@ -5,8 +5,7 @@
 #include "Hexahedron.h"
 #include "Tetrahedron.h"
 
-Hexahedron::Hexahedron() {
-}
+Hexahedron::Hexahedron() = default;
 
 Hexahedron::Hexahedron(const QVector<Point> &pointList) : Element(pointList) {
     elementList = {
@@ -40,7 +39,7 @@ Point Hexahedron::centroid() const {
 
     Point weightedPoint(0, 0, 0);
     float volume = 0;
-    for (auto pointList: tetrPointList) {
+    for (auto &pointList: tetrPointList) {
         Tetrahedron tetr(pointList);
         weightedPoint = weightedPoint + tetr.centroid() * tetr.size();
         volume += tetr.size();
@@ -53,6 +52,6 @@ float Hexahedron::size() const {
 }
 
 Plane Hexahedron::getPlane() const {
-    return Plane((pointList[0] + pointList[4]) / 2,
-                 (pointList[1] + pointList[5]) / 2, (pointList[2] + pointList[6]) / 2);
+    return Plane{(pointList[0] + pointList[4]) / 2,
+                 (pointList[1] + pointList[5]) / 2, (pointList[2] + pointList[6]) / 2};
 }

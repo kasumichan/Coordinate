@@ -14,12 +14,12 @@ protected:
     QVector<Point> pointList;
     QVector<QVector<int>> elementList;
     Axis axis;
-    int id;
+    int id{};
 
 public:
     Element();
 
-    Element(const QVector<Point> &pointList);
+    explicit Element(const QVector<Point> &pointList);
 
     Element(const Element &element);
 
@@ -33,7 +33,7 @@ public:
 
     void setAxis(const Axis &axis);
 
-    void setID(const int id);
+    void setID(int id);
 
     Axis getAxis() const;
 

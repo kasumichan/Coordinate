@@ -4,8 +4,10 @@
 
 #include "Canvas.h"
 
+#include <utility>
+
 Canvas::Canvas(QVector<Element *> elementPointerList, QWidget *parent)
-        : QWidget(parent), elementPointerList(elementPointerList) {
+        : QWidget(parent), elementPointerList(std::move(elementPointerList)) {
     mousePressed = false;
     ratio = (width() > height() ? height() : width()) / 24;
 }
@@ -36,8 +38,8 @@ void Canvas::mouseMoveEvent(QMouseEvent *event) {
     if (mousePressed) {
         const QPoint posOffset = event->pos() - mousePos;
         mousePos = event->pos();
-        rotateMat.rotate(1.1f, QVector3D(0.5f * posOffset.y(),
-                                         -0.5f * posOffset.x(), 0.0f));
+        rotateMat.rotate(1.1f, QVector3D(0.5f * float(posOffset.y()),
+                                         -0.5f * float(posOffset.x()), 0.0f));
         update();
     }
     QWidget::mouseMoveEvent(event);
@@ -56,10 +58,6 @@ void Canvas::wheelEvent(QWheelEvent *event) {
         ratio *= 0.9;
     update();
     QWidget::wheelEvent(event);
-}
-
-QPointF Canvas::getPoint(const QVector3D &vt, int ratio) const {
-    return QPointF{vt.x() * ratio, vt.y() * ratio};
 }
 
 void Canvas::draw(const QVector<Point> &vertexList, const QVector<QVector<int>> &elementList,
@@ -113,7 +111,7 @@ void Canvas::draw(const QVector<Point> &vertexList, const QVector<QVector<int>> 
             centroid += mVertexList[elementList[i][j]];
             v_list.push_back(mVertexList[elementList[i][j]]);
         }
-        centroid /= v_list.count();
+        centroid /= float(v_list.count());
         QPainterPath element_path;
         element_path.moveTo(getPoint(v_list[0], ratio));
         for (int j = 1; j < v_list.count(); ++j) {
@@ -176,4 +174,9 @@ void Canvas::draw(const QVector<Point> &vertexList, const QVector<QVector<int>> 
     painter.drawLine(z_axis);
     painter.restore();
 
+}
+
+
+QPointF Canvas::getPoint(const QVector3D &vt, float ratio) {
+    return QPointF{vt.x() * ratio, vt.y() * ratio};
 }
