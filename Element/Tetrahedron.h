@@ -11,15 +11,17 @@ class Tetrahedron : public Element {
 public:
     Tetrahedron();
 
-    explicit Tetrahedron(const QVector<Point> &pointList);
+    explicit Tetrahedron(const QVector<Point> &_pointList);
 
-    Tetrahedron(const Tetrahedron &tetrahedron);
+    Tetrahedron(const Tetrahedron &_tetrahedron);
 
     Point centroid() const override;
 
     float size() const override;
 
     Plane getPlane() const override;
+
+    void setElementList();
 };
 
 

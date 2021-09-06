@@ -11,15 +11,17 @@ class Hexahedron : public Element {
 public:
     Hexahedron();
 
-    explicit Hexahedron(const QVector<Point> &pointList);
+    explicit Hexahedron(const QVector<Point> &_pointList);
 
-    Hexahedron(const Hexahedron &hexahedron);
+    Hexahedron(const Hexahedron &_hexahedron);
 
     Point centroid() const override;
 
     float size() const override;
 
     Plane getPlane() const override;
+
+    void setElementList();
 };
 
 

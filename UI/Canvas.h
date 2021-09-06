@@ -23,7 +23,7 @@ private:
     bool mousePressed;
 
 public:
-    explicit Canvas(QVector<Element *> elementPointerList, QWidget *parent = nullptr);
+    explicit Canvas(QVector<Element *> _elementPointerList, QWidget *parent = nullptr);
 
 
 protected:

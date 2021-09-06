@@ -20,9 +20,9 @@ private:
 public:
     Plane();
 
-    explicit Plane(const QVector<Point> &pointList);
+    explicit Plane(const QVector<Point> &_pointList);
 
-    Plane(const Point &a, const Point &b, const Point &c);
+    Plane(const Point &_a, const Point &_b, const Point &_c);
 
     float getA() const;
 

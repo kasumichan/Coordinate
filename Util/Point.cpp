@@ -8,7 +8,7 @@
 Point::Point() : QVector3D() {
 }
 
-Point::Point(float x, float y, float z) : QVector3D(x, y, z) {
+Point::Point(float _x, float _y, float _z) : QVector3D(_x, _y, _z) {
 }
 
 Point Point::operator+(const Point &other) const {
@@ -24,10 +24,8 @@ Point Point::operator*(float a) const {
 }
 
 Point Point::operator/(float a) const {
-    if (abs(a) > 1e-7) {
-        return {x() / a, y() / a, z() / a};
-    }
-    return {x(), y(), z()};
+    assert(abs(a) > 1e-7);
+    return {x() / a, y() / a, z() / a};
 }
 
 float Point::distanceToPlane(const Plane &plane) const {

@@ -6,11 +6,11 @@
 
 Axis::Axis() = default;
 
-Axis::Axis(const Point &base, const QVector3D &x, const QVector3D &y, const QVector3D &z) {
-    this->base = base;
-    this->x = x;
-    this->y = y;
-    this->z = z;
+Axis::Axis(const Point &_base, const QVector3D &_x, const QVector3D &_y, const QVector3D &_z) {
+    base = _base;
+    x = _x;
+    y = _y;
+    z = _z;
 }
 
 Point Axis::getBase() const {

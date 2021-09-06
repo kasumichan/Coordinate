@@ -10,15 +10,15 @@
 #include <sstream>
 #include <QDebug>
 
-CalculateAxis::CalculateAxis(float *coordinateData, int inputType) {
-    this->coordinateData = coordinateData;
-    this->inputType = inputType;
+CalculateAxis::CalculateAxis(float *_coordinateData, int _inputType) {
+    this->coordinateData = _coordinateData;
+    this->inputType = _inputType;
 }
 
 void CalculateAxis::input(const QString &fileName) {
     QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "error";
+    if (!file.open(QIODevice::ReadOnly)) {
+        qDebug() << "No such file";
         return;
     }
     QTextStream in(&file);
@@ -32,21 +32,22 @@ void CalculateAxis::input(const QString &fileName) {
 
 void CalculateAxis::output(const QString &fileName) {
     QFile file(fileName);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+    if (!file.open(QIODevice::WriteOnly)) {
         qDebug() << "error";
         return;
     }
     std::stringstream ss;
     ss << "ID  X   Y   Z   UX  UY  UZ  VX  VY  VZ  WX  WY  WZ " << std::endl;
     file.write(QString::fromStdString(ss.str()).toUtf8());
-    for (auto elementPointer: elementPointerList) {
+    for (auto &elementPointer: elementPointerList) {
         int id = elementPointer->getID();
         Axis axis = elementPointer->getAxis();
         Point base = axis.getBase();
         QVector3D x = axis.getX();
         QVector3D y = axis.getY();
         QVector3D z = axis.getZ();
-        std::stringstream ss;
+        ss.clear();
+        ss.str("");
         ss << id << " " << base.x() << " " << base.y() << " " << base.z() << " "
            << x[0] << " " << x[1] << " " << x[2] << " "
            << y[0] << " " << y[1] << " " << y[2] << " "
@@ -90,7 +91,7 @@ void CalculateAxis::processLine(const std::string &line) {
 }
 
 void CalculateAxis::addAxis() {
-    for (auto elementPointer: elementPointerList) {
+    for (auto &elementPointer: elementPointerList) {
 
         QVector3D x{coordinateData[3] - coordinateData[0],
                     coordinateData[4] - coordinateData[1],

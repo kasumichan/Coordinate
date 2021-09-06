@@ -14,7 +14,7 @@ class Point : public QVector3D {
 public:
     Point();
 
-    Point(float x, float y, float z);
+    Point(float _x, float _y, float _z);
 
     Point operator+(const Point &other) const;
 

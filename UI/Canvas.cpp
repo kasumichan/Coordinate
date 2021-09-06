@@ -6,8 +6,8 @@
 
 #include <utility>
 
-Canvas::Canvas(QVector<Element *> elementPointerList, QWidget *parent)
-        : QWidget(parent), elementPointerList(std::move(elementPointerList)) {
+Canvas::Canvas(QVector<Element *> _elementPointerList, QWidget *parent)
+        : QWidget(parent), elementPointerList(std::move(_elementPointerList)) {
     mousePressed = false;
     ratio = (width() > height() ? height() : width()) / 24;
 }
@@ -20,7 +20,7 @@ void Canvas::paintEvent(QPaintEvent *event) {
     painter.setPen(pen);
     painter.drawRect(this->rect().adjusted(0, 0, -1, -1));
 
-    for (auto elementPointer: elementPointerList) {
+    for (auto &elementPointer: elementPointerList) {
         QVector<Point> vertexList = elementPointer->getPointList();
         QVector<QVector<int>> elementList = elementPointer->getElementList();
         Axis axis = elementPointer->getAxis();
@@ -120,7 +120,7 @@ void Canvas::draw(const QVector<Point> &vertexList, const QVector<QVector<int>> 
         element_path.closeSubpath();
 
         bool is_front = true;
-        for (auto vertex_index: vertexMaxList) {
+        for (auto &vertex_index: vertexMaxList) {
             if (!elementList[i].contains(vertex_index)) {
                 is_front = false;
                 break;
@@ -147,13 +147,13 @@ void Canvas::draw(const QVector<Point> &vertexList, const QVector<QVector<int>> 
             }
         }
     }
-    for (auto index: element_front_remove) {
+    for (auto &index: element_front_remove) {
         elementFrontList.removeOne(index);
     }
 
     painter.setRenderHint(QPainter::Antialiasing, true);
 
-    for (auto index: elementFrontList) {
+    for (auto &index: elementFrontList) {
         painter.fillPath(elementPathList[index], Qt::blue);
     }
 
@@ -165,7 +165,7 @@ void Canvas::draw(const QVector<Point> &vertexList, const QVector<QVector<int>> 
     }
 
     painter.setPen(QPen(Qt::black, 2));
-    for (auto index: elementFrontList) {
+    for (auto &index: elementFrontList) {
         painter.drawPath(elementPathList[index]);
     }
     painter.setPen(QPen(Qt::red, 2));

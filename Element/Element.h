@@ -19,9 +19,9 @@ protected:
 public:
     Element();
 
-    explicit Element(const QVector<Point> &pointList);
+    explicit Element(const QVector<Point> &_pointList);
 
-    Element(const Element &element);
+    Element(const Element &_element);
 
     virtual float size() const = 0;
 
@@ -31,9 +31,9 @@ public:
 
     QVector<Point> getPointList() const;
 
-    void setAxis(const Axis &axis);
+    void setAxis(const Axis &_axis);
 
-    void setID(int id);
+    void setID(int _id);
 
     Axis getAxis() const;
 

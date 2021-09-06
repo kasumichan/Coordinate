@@ -8,8 +8,8 @@
 #include "InputDialog.h"
 
 
-InputDialog::InputDialog(int dim, QWidget *parent)
-        : QDialog(parent), dimension(dim) {
+InputDialog::InputDialog(int _dim, QWidget *parent)
+        : QDialog(parent), dimension(_dim) {
     numLabel = new QLabel *[dimension];
     charLabel = new QLabel *[3];
     edit = new QLineEdit *[3 * dimension];

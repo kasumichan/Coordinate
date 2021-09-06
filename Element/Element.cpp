@@ -6,12 +6,12 @@
 
 Element::Element() = default;
 
-Element::Element(const QVector<Point> &pointList)
-        : pointList(pointList) {
+Element::Element(const QVector<Point> &_pointList)
+        : pointList(_pointList) {
 }
 
-Element::Element(const Element &element) {
-    pointList = element.pointList;
+Element::Element(const Element &_element) {
+    pointList = _element.pointList;
 }
 
 QVector<Point> Element::getPointList() const {

@@ -7,21 +7,13 @@
 
 Tetrahedron::Tetrahedron() = default;
 
-Tetrahedron::Tetrahedron(const QVector<Point> &pointList) : Element(pointList) {
-    elementList = {
-            {0, 1, 3},
-            {1, 2, 3},
-            {2, 0, 3},
-            {0, 1, 2}};
+Tetrahedron::Tetrahedron(const QVector<Point> &_pointList) : Element(_pointList) {
+    setElementList();
 }
 
-Tetrahedron::Tetrahedron(const Tetrahedron &tetrahedron)
-        : Element(tetrahedron) {
-    elementList = {
-            {0, 1, 3},
-            {1, 2, 3},
-            {2, 0, 3},
-            {0, 1, 2}};
+Tetrahedron::Tetrahedron(const Tetrahedron &_tetrahedron)
+        : Element(_tetrahedron) {
+    setElementList();
 }
 
 Point Tetrahedron::centroid() const {
@@ -38,4 +30,12 @@ float Tetrahedron::size() const {
 
 Plane Tetrahedron::getPlane() const {
     return Plane{centroid(), pointList[0], pointList[1]};
+}
+
+void Tetrahedron::setElementList() {
+    elementList = {
+            {0, 1, 3},
+            {1, 2, 3},
+            {2, 0, 3},
+            {0, 1, 2}};
 }

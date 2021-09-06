@@ -22,7 +22,7 @@ private:
     QPushButton *cancel;
 
 public:
-    explicit InputDialog(int dim, QWidget *parent = nullptr);
+    explicit InputDialog(int _dim, QWidget *parent = nullptr);
 
     void initUI();
 

@@ -20,7 +20,7 @@ private:
     QVector<Element *> elementPointerList;
     QMap<std::string, QVector<double>> node;
 public:
-    CalculateAxis(float *coordinateData, int inputType);
+    CalculateAxis(float *_coordinateData, int _inputType);
     void work();
     void processLine(const std::string& line);
     void input(const QString& fileName="../Data/input.txt");

@@ -6,26 +6,16 @@
 
 Quadrilateral::Quadrilateral() = default;
 
-Quadrilateral::Quadrilateral(const QVector<Point> &pointList)
-        : Element(pointList) {
-    elementList = {
-            {0, 1, 2},
-            {1, 2, 3}};
-    QVector<Point> tr1Point = {pointList[0], pointList[1], pointList[2]};
-    QVector<Point> tr2Point = {pointList[0], pointList[1], pointList[2]};
-    tr1 = Triangle(tr1Point);
-    tr2 = Triangle(tr2Point);
+Quadrilateral::Quadrilateral(const QVector<Point> &_pointList)
+        : Element(_pointList) {
+    setElementList();
+    setTriangle();
 }
 
-Quadrilateral::Quadrilateral(const Quadrilateral &quadrilateral)
-        : Element(quadrilateral) {
-    elementList = {
-            {0, 1, 2},
-            {1, 2, 3}};
-    QVector<Point> tr1Point = {pointList[0], pointList[1], pointList[2]};
-    QVector<Point> tr2Point = {pointList[0], pointList[1], pointList[2]};
-    tr1 = Triangle(tr1Point);
-    tr2 = Triangle(tr2Point);
+Quadrilateral::Quadrilateral(const Quadrilateral &_quadrilateral)
+        : Element(_quadrilateral) {
+    setElementList();
+    setTriangle();
 }
 
 Point Quadrilateral::centroid() const {
@@ -38,4 +28,17 @@ float Quadrilateral::size() const {
 
 Plane Quadrilateral::getPlane() const {
     return Plane(getPointList());
+}
+
+void Quadrilateral::setElementList() {
+    elementList = {
+            {0, 1, 2},
+            {1, 2, 3}};
+}
+
+void Quadrilateral::setTriangle() {
+    QVector<Point> tr1Point = {pointList[0], pointList[1], pointList[2]};
+    QVector<Point> tr2Point = {pointList[1], pointList[2], pointList[3]};
+    tr1 = Triangle(tr1Point);
+    tr2 = Triangle(tr2Point);
 }

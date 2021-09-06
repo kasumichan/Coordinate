@@ -12,15 +12,17 @@ private:
 public:
     Triangle();
 
-    explicit Triangle(const QVector<Point> &pointList);
+    explicit Triangle(const QVector<Point> &_pointList);
 
-    Triangle(const Triangle &triangle);
+    Triangle(const Triangle &_triangle);
 
     Point centroid() const override;
 
     float size() const override;
 
     Plane getPlane() const override;
+
+    void setElementList();
 };
 
 

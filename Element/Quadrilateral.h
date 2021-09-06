@@ -15,15 +15,19 @@ private:
 public:
     Quadrilateral();
 
-    explicit Quadrilateral(const QVector<Point> &pointList);
+    explicit Quadrilateral(const QVector<Point> &_pointList);
 
-    Quadrilateral(const Quadrilateral &quadrilateral);
+    Quadrilateral(const Quadrilateral &_quadrilateral);
 
     Point centroid() const override;
 
     float size() const override;
 
     Plane getPlane() const override;
+
+    void setElementList();
+
+    void setTriangle();
 };
 
 
