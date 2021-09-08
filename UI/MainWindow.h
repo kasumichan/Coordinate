@@ -8,6 +8,7 @@
 #include <QWidget>
 #include <QComboBox>
 #include <QPushButton>
+#include "../Enum/InputType.h"
 
 class MainWindow : public QWidget {
 
@@ -15,7 +16,7 @@ Q_OBJECT
 private:
 
     float *coordinateData;
-    int inputType;
+    InputType inputType;
     QComboBox *inputTypeBox;
     QPushButton *inputBtn;
     QPushButton *confirmBtn;

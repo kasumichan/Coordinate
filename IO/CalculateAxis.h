@@ -10,21 +10,25 @@
 #include <QMap>
 #include <QFile>
 #include "../Element/Element.h"
+#include "../Enum/InputType.h"
 
 
 
 class CalculateAxis {
 private:
-    int inputType;
+    InputType inputType;
     float *coordinateData;
     QVector<Element *> elementPointerList;
     QMap<std::string, QVector<double>> node;
 public:
-    CalculateAxis(float *_coordinateData, int _inputType);
+    CalculateAxis(float *_coordinateData, InputType _inputType);
     void work();
     void processLine(const std::string& line);
     void input(const QString& fileName="../Data/input.txt");
     void output(const QString& fileName="../Data/output.txt");
+
+
+    Axis getAxis() const;
     void addAxis();
 };
 

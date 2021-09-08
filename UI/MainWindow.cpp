@@ -10,7 +10,7 @@
 MainWindow::MainWindow(QWidget *parent)
         : QWidget(parent) {
     coordinateData = new float[9];
-    inputType = 0;
+    inputType = InputType::threePoints;
     inputTypeBox = new QComboBox(this);
     inputBtn = new QPushButton(this);
     confirmBtn = new QPushButton(this);
@@ -45,15 +45,29 @@ void MainWindow::addListener() {
 }
 
 void MainWindow::on_inputType_currentIndexChanged(int index) {
-    inputType = index;
+    switch (index) {
+        case 0:
+            inputType = InputType::threePoints;
+            break;
+        case 1:
+            inputType = InputType::originAndNormalVector;
+            break;
+        default:
+            break;
+    }
 }
 
 void MainWindow::on_input_clicked() {
     InputDialog *dialog;
-    if (inputType == 0) {
-        dialog = new InputDialog(3);
-    } else {
-        dialog = new InputDialog(2);
+    switch (inputType) {
+        case InputType::threePoints:
+            dialog = new InputDialog(3);
+            break;
+        case InputType::originAndNormalVector:
+            dialog = new InputDialog(2);
+            break;
+        default:
+            break;
     }
     connect(dialog, SIGNAL(sendData(float * )), this, SLOT(updateData(float * )));
     dialog->show();

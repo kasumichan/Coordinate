@@ -10,7 +10,7 @@
 #include <sstream>
 #include <QDebug>
 
-CalculateAxis::CalculateAxis(float *_coordinateData, int _inputType) {
+CalculateAxis::CalculateAxis(float *_coordinateData, InputType _inputType) {
     this->coordinateData = _coordinateData;
     this->inputType = _inputType;
 }
@@ -91,6 +91,8 @@ void CalculateAxis::processLine(const std::string &line) {
 }
 
 void CalculateAxis::addAxis() {
+
+
     for (auto &elementPointer: elementPointerList) {
 
         QVector3D x{coordinateData[3] - coordinateData[0],
@@ -108,8 +110,16 @@ void CalculateAxis::addAxis() {
                 break;
             }
             case 1: {
-                QVector3D z = elementPointer->getPlane().getNormalVector();
-                QVector3D y = QVector3D::crossProduct(z, x).normalized();
+                QVector<float> vec = {x[0], x[1], x[2]};
+                auto smallest = std::min_element(vec.cbegin(), vec.cend(), [](float i, float j) { return abs(i) < abs(j); });
+                int smallestIndex = std::distance(vec.cbegin(), smallest);
+                QVector3D e{0, 0, 0};
+                e[smallestIndex] = 1;
+
+                QVector3D y = QVector3D::crossProduct(e, x).normalized();
+                QVector3D z = QVector3D::crossProduct(x, y).normalized();
+
+
                 elementPointer->setAxis(Axis(elementPointer->centroid(), x, y, z));
                 break;
             }
@@ -132,3 +142,4 @@ void CalculateAxis::work() {
     auto *canvas = new Canvas(elementPointerList);
     canvas->show();
 }
+

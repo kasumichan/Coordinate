@@ -20,6 +20,14 @@ public:
 
     Point getBase() const;
 
+    void setBase(const Point &_point);
+
+    void setX(const QVector3D &_x);
+
+    void setY(const QVector3D &_y);
+
+    void setZ(const QVector3D &_z);
+
     QVector3D getX() const;
 
     QVector3D getY() const;
