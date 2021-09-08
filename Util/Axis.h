@@ -7,6 +7,7 @@
 
 #include "Point.h"
 #include <QVector3D>
+#include <QString>
 
 
 class Axis {
@@ -34,6 +35,7 @@ public:
 
     QVector3D getZ() const;
 
+    QString toString() const;
 
 };
 

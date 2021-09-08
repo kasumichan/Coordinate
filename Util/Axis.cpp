@@ -3,6 +3,7 @@
 //
 
 #include "Axis.h"
+#include <sstream>
 
 Axis::Axis() = default;
 
@@ -44,3 +45,12 @@ void Axis::setY(const QVector3D &_y) {
 void Axis::setZ(const QVector3D &_z) {
     this->z = _z;
 }
+
+QString Axis::toString() const {
+    std::stringstream ss;
+    ss << "ex: " << "(" << x.x() << " " << x.y() << " " << x.z() << ")" << " "
+       << "ey: " << "(" << y.x() << " " << y.y() << " " << y.z() << ")" << " "
+       << "ez: " << "(" << z.x() << " " << z.y() << " " << z.z() << ")";
+    return QString::fromStdString(ss.str());
+}
+

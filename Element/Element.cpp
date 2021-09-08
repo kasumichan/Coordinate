@@ -38,3 +38,11 @@ int Element::getID() const {
 QVector<QVector<int>> Element::getElementList() const {
     return elementList;
 }
+
+void Element::setName(QString _name) {
+    this->name = _name;
+}
+
+QString Element::getName() const {
+    return name;
+}

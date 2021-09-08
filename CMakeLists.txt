@@ -28,7 +28,7 @@ add_executable(${PROJECT_NAME} main.cpp
         UI/InputDialog.cpp UI/InputDialog.h
         UI/Canvas.cpp UI/Canvas.h
         Util/Axis.cpp Util/Axis.h
-        IO/CalculateAxis.cpp IO/CalculateAxis.h
+        IO/ElementInfoReader.cpp IO/ElementInfoReader.h
         UI/MainWindow.cpp UI/MainWindow.h Enum/InputType.h Enum/SetAxisMethod.h Core/CalcAxis.cpp Core/CalcAxis.h Core/SetAxis.cpp Core/SetAxis.h)
 
 

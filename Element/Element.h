@@ -14,6 +14,7 @@ protected:
     QVector<Point> pointList;
     QVector<QVector<int>> elementList;
     Axis axis;
+    QString name;
     int id{};
 
 public:
@@ -35,9 +36,13 @@ public:
 
     void setID(int _id);
 
+    void setName(QString _name);
+
     Axis getAxis() const;
 
     int getID() const;
+
+    QString getName() const;
 
     QVector<QVector<int>> getElementList() const;
 };
