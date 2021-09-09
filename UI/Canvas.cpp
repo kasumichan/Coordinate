@@ -7,7 +7,7 @@
 #include <utility>
 
 Canvas::Canvas(QVector<Element *> _elementPointerList, QWidget *parent)
-        : QWidget(parent), elementPointerList(std::move(_elementPointerList)) {
+        : QWidget(parent), elementPtrList(std::move(_elementPointerList)) {
     mousePressed = false;
     ratio = (width() > height() ? height() : width()) / 24;
 }
@@ -20,7 +20,7 @@ void Canvas::paintEvent(QPaintEvent *event) {
     painter.setPen(pen);
     painter.drawRect(this->rect().adjusted(0, 0, -1, -1));
 
-    for (auto &elementPointer: elementPointerList) {
+    for (auto &elementPointer: elementPtrList) {
         QVector<Point> vertexList = elementPointer->getPointList();
         QVector<QVector<int>> elementList = elementPointer->getElementList();
         Axis axis = elementPointer->getAxis();
@@ -179,4 +179,9 @@ void Canvas::draw(const QVector<Point> &vertexList, const QVector<QVector<int>> 
 
 QPointF Canvas::getPoint(const QVector3D &vt, float ratio) {
     return QPointF{vt.x() * ratio, vt.y() * ratio};
+}
+
+void Canvas::setElementPtrList(const QVector<Element *> &_elementPtrList) {
+    this->elementPtrList = _elementPtrList;
+    update();
 }

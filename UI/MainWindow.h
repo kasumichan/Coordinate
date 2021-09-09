@@ -9,27 +9,38 @@
 #include <QComboBox>
 #include <QPushButton>
 #include <QTableWidget>
+#include <QLabel>
 #include "../Element/Element.h"
 #include "../Enum/InputType.h"
+#include "../Enum/SetAxisMethod.h"
+#include "Canvas.h"
 
 class MainWindow : public QWidget {
 
 Q_OBJECT
 private:
-
     int currentRowIndex;
     Axis axis;
     QVector<Element *> elementPtrList;
+    Canvas *canvas;
 
     InputType inputType;
-    QComboBox *inputTypeBox;
-    QComboBox *methodTypeBox;
-    QPushButton *inputBtn;
+    SetAxisMethod setAxisMethod;
+
+
+    QTableWidget *elementInfoTable;
+
     QPushButton *readBtn;
     QPushButton *plotBtn;
-    QTableWidget *elementInfoTable;
+
+    QLabel *inputTypeLabel;
+    QLabel *methodTypeLabel;
+
+    QComboBox *inputTypeBox;
+    QComboBox *methodTypeBox;
+
+    QPushButton *inputBtn;
     QPushButton *confirmBtn;
-    QPushButton *cancelBtn;
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);

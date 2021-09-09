@@ -16,7 +16,7 @@
 class Canvas : public QWidget {
 private:
 
-    QVector<Element *> elementPointerList;
+    QVector<Element *> elementPtrList;
     QMatrix4x4 rotateMat;
     QPoint mousePos;
     float ratio;
@@ -24,6 +24,8 @@ private:
 
 public:
     explicit Canvas(QVector<Element *> _elementPointerList, QWidget *parent = nullptr);
+
+    void setElementPtrList(const QVector<Element *> &_elementPtrList);
 
 
 protected:
