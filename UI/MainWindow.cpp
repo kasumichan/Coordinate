@@ -7,67 +7,94 @@
 #include "../IO/ElementInfoReader.h"
 #include "../Core/CalcAxis.h"
 #include "../Core/SetAxis.h"
+#include "../IO/AxisInfoWriter.h"
 #include <QVBoxLayout>
-#include <QDebug>
+#include <QMessageBox>
 #include <QHeaderView>
 
 MainWindow::MainWindow(QWidget *parent)
         : QWidget(parent) {
     currentRowIndex = -1;
     inputType = InputType::threePoints;
+    setAxisMethod = SetAxisMethod::set;
+    canvas = new Canvas(elementPtrList);
+
     elementInfoTable = new QTableWidget(this);
+
     readBtn = new QPushButton(this);
     plotBtn = new QPushButton(this);
+
+    inputTypeLabel = new QLabel(this);
+    methodTypeLabel = new QLabel(this);
+
     inputTypeBox = new QComboBox(this);
     methodTypeBox = new QComboBox(this);
+
     inputBtn = new QPushButton(this);
     confirmBtn = new QPushButton(this);
+
     initUI();
-    updateTableInfo();
     initLayout();
     addListener();
 }
 
 void MainWindow::initUI() {
-    setWindowTitle("Main");
-    resize(1960, 1280);
-
-    readBtn->setText("Read");
-    plotBtn->setText("Plot");
-    inputBtn->setText("Input Data");
-    confirmBtn->setText("Confirm");
-
-    inputTypeBox->addItem("Three Points");
-    inputTypeBox->addItem("Origin & Normal Vector");
-    methodTypeBox->addItem("Set");
-    methodTypeBox->addItem("Projection");
+    this->setWindowTitle("Main");
+    this->resize(1920, 1080);
 
     QStringList headerText;
     headerText << "Element" << "ID" << "Method" << "Axis";
     elementInfoTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     elementInfoTable->setSelectionMode(QAbstractItemView::SingleSelection);
     elementInfoTable->setSelectionBehavior(QAbstractItemView::SelectRows);
-    elementInfoTable->setRowCount(elementPtrList.size());
     elementInfoTable->setColumnCount(headerText.size());
     elementInfoTable->setHorizontalHeaderLabels(headerText);
     elementInfoTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    elementInfoTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-    elementInfoTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
-    elementInfoTable->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+    elementInfoTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
+    elementInfoTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Interactive);
+    elementInfoTable->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Interactive);
+
+    readBtn->setText("Read");
+    plotBtn->setText("Plot");
+
+    inputTypeLabel->setText("Setting");
+    methodTypeLabel->setText("Method");
+
+    inputTypeBox->addItem("Three Points");
+    inputTypeBox->addItem("Origin & Normal Vector");
+    methodTypeBox->addItem("Set");
+    methodTypeBox->addItem("Projection");
+
+    inputBtn->setText("Input Data");
+    confirmBtn->setText("Apply");
+
 }
 
 void MainWindow::initLayout() {
-    auto *vBoxLayout = new QVBoxLayout();
-    vBoxLayout->addWidget(elementInfoTable);
-    vBoxLayout->addWidget(readBtn);
-    vBoxLayout->addWidget(plotBtn);
+    auto *mainLayout = new QVBoxLayout();
+    mainLayout->addWidget(elementInfoTable);
 
-    vBoxLayout->addWidget(inputTypeBox);
-    vBoxLayout->addWidget(methodTypeBox);
+    auto *topLayout = new QHBoxLayout();
+    topLayout->addWidget(readBtn);
+    topLayout->addWidget(plotBtn);
 
-    vBoxLayout->addWidget(inputBtn);
-    vBoxLayout->addWidget(confirmBtn);
-    setLayout(vBoxLayout);
+    mainLayout->addLayout(topLayout);
+
+    auto *comboBoxLayout = new QHBoxLayout();
+    comboBoxLayout->addWidget(methodTypeLabel);
+    comboBoxLayout->addWidget(methodTypeBox);
+    comboBoxLayout->addWidget(inputTypeLabel);
+    comboBoxLayout->addWidget(inputTypeBox);
+
+    mainLayout->addLayout(comboBoxLayout);
+
+    auto *bottomLayout = new QHBoxLayout();
+    bottomLayout->addWidget(inputBtn);
+    bottomLayout->addWidget(confirmBtn);
+
+    mainLayout->addLayout(bottomLayout);
+
+    setLayout(mainLayout);
 }
 
 void MainWindow::addListener() {
@@ -97,6 +124,19 @@ void MainWindow::on_inputTypeBox_currentIndexChanged(int index) {
     }
 }
 
+void MainWindow::on_methodTypeBox_currentIndexChanged(int index) {
+    switch (index) {
+        case 0:
+            setAxisMethod = SetAxisMethod::set;
+            break;
+        case 1:
+            setAxisMethod = SetAxisMethod::project;
+            break;
+        default:
+            break;
+    }
+}
+
 void MainWindow::on_inputBtn_clicked() {
     InputDialog *dialog;
     switch (inputType) {
@@ -114,17 +154,31 @@ void MainWindow::on_inputBtn_clicked() {
 }
 
 void MainWindow::on_confirmBtn_clicked() {
-    //    ElementInfoReader calculateAxis(coordinateData, inputType);
-    //    calculateAxis.work();
-    SetAxisMethod setAxisMethod;
-    if (elementInfoTable->item(currentRowIndex, 2)->text() == "Set") {
-        setAxisMethod = SetAxisMethod::set;
-    } else {
-        setAxisMethod = SetAxisMethod::project;
+    if (currentRowIndex == -1) {
+        QMessageBox::critical(nullptr, "Error", "You have not selected any element",
+                              QMessageBox::Ok | QMessageBox::Default, QMessageBox::Cancel | QMessageBox::Escape, 0);
+        return;
     }
+
+    switch (setAxisMethod) {
+        case SetAxisMethod::set : {
+            elementInfoTable->setItem(currentRowIndex, 2, new QTableWidgetItem("Set"));
+            break;
+        }
+        case SetAxisMethod::project : {
+            elementInfoTable->setItem(currentRowIndex, 2, new QTableWidgetItem("Project"));
+            break;
+        }
+        default:
+            break;
+    }
+
     SetAxis{elementPtrList.at(currentRowIndex), setAxisMethod, axis};
     elementInfoTable->setItem(currentRowIndex, 3,
                               new QTableWidgetItem(elementPtrList.at(currentRowIndex)->getAxis().toString()));
+    AxisInfoWriter axisInfoWriter(elementPtrList);
+    axisInfoWriter.write();
+
 }
 
 
@@ -140,6 +194,7 @@ void MainWindow::input() {
 }
 
 void MainWindow::updateTableInfo() {
+    elementInfoTable->setRowCount(elementPtrList.size());
     for (int i = 0; i < elementPtrList.size(); ++i) {
         elementInfoTable->setItem(i, 0, new QTableWidgetItem(elementPtrList[i]->getName()));
         elementInfoTable->setItem(i, 1, new QTableWidgetItem(QString::number(elementPtrList[i]->getID())));
@@ -151,18 +206,6 @@ void MainWindow::on_elementInfoTable_clicked() {
     currentRowIndex = elementInfoTable->selectedItems().front()->row();
 }
 
-void MainWindow::on_methodTypeBox_currentIndexChanged(int index) {
-    switch (index) {
-        case 0:
-            elementInfoTable->setItem(currentRowIndex, 2, new QTableWidgetItem("Set"));
-            break;
-        case 1:
-            elementInfoTable->setItem(currentRowIndex, 2, new QTableWidgetItem("Project"));
-            break;
-        default:
-            break;
-    }
-}
 
 void MainWindow::on_readBtn_clicked() {
     input();
@@ -170,6 +213,7 @@ void MainWindow::on_readBtn_clicked() {
 }
 
 void MainWindow::on_plotBtn_clicked() {
-
+    canvas->setElementPtrList(elementPtrList);
+    canvas->show();
 }
 
