@@ -8,7 +8,7 @@ set(CMAKE_AUTOUIC ON)
 
 if (WIN32)
     set(CMAKE_PREFIX_PATH "D:/Qt/Qt5.12.11/5.12.11/msvc2017_64")
-else()
+else ()
     set(CMAKE_PREFIX_PATH "/usr/lib/x86_64-linux-gnu")
 endif ()
 
@@ -29,7 +29,11 @@ add_executable(${PROJECT_NAME} main.cpp
         UI/Canvas.cpp UI/Canvas.h
         Util/Axis.cpp Util/Axis.h
         IO/ElementInfoReader.cpp IO/ElementInfoReader.h
-        UI/MainWindow.cpp UI/MainWindow.h Enum/InputType.h Enum/SetAxisMethod.h Core/CalcAxis.cpp Core/CalcAxis.h Core/SetAxis.cpp Core/SetAxis.h IO/AxisInfoWriter.cpp IO/AxisInfoWriter.h)
+        UI/MainWindow.cpp UI/MainWindow.h
+        Enum/InputType.h Enum/SetAxisMethod.h
+        Core/CalcAxis.cpp Core/CalcAxis.h
+        Core/SetAxis.cpp Core/SetAxis.h
+        IO/AxisInfoWriter.cpp IO/AxisInfoWriter.h)
 
 
 if (NOT CMAKE_PREFIX_PATH)
