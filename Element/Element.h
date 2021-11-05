@@ -13,7 +13,8 @@ class Element {
 protected:
     QVector<Point> pointList;
     QVector<QVector<int>> elementList;
-    Axis axis;
+    QVector<Axis> pointAxisList;
+    Axis centroidAxis;
     QString name;
     int id{};
 
@@ -32,15 +33,19 @@ public:
 
     QVector<Point> getPointList() const;
 
-    void setAxis(const Axis &_axis);
+    void setPointAxisList(const Axis &_axis);
+
+    QVector<Axis> getPointAxisList() const;
+
+    void setCentroidAxis(const Axis &_axis);
+
+    Axis getCentroidAxis() const;
 
     void setID(int _id);
 
-    void setName(QString _name);
-
-    Axis getAxis() const;
-
     int getID() const;
+
+    void setName(QString _name);
 
     QString getName() const;
 

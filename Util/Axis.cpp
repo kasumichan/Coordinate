@@ -54,3 +54,8 @@ QString Axis::toString() const {
     return QString::fromStdString(ss.str());
 }
 
+bool Axis::operator<(const Axis &axis) const {
+    return this->base.getID() < axis.base.getID();
+}
+
+

@@ -31,8 +31,8 @@ add_executable(${PROJECT_NAME} main.cpp
         IO/ElementInfoReader.cpp IO/ElementInfoReader.h
         UI/MainWindow.cpp UI/MainWindow.h
         Enum/InputType.h Enum/SetAxisMethod.h
-        Core/CalcAxis.cpp Core/CalcAxis.h
-        Core/SetAxis.cpp Core/SetAxis.h
+        Core/AxisCalculator.cpp Core/AxisCalculator.h
+        Core/AxisSetter.cpp Core/AxisSetter.h
         IO/AxisInfoWriter.cpp IO/AxisInfoWriter.h)
 
 

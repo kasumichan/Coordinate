@@ -2,15 +2,15 @@
 // Created by dell on 2021/9/7.
 //
 
-#include "CalcAxis.h"
+#include "AxisCalculator.h"
 #include <QVector>
 
-CalcAxis::CalcAxis(InputType _inputType, float *_coordinateData) {
+AxisCalculator::AxisCalculator(InputType _inputType, float *_coordinateData) {
     this->inputType = _inputType;
     this->coordinateData = _coordinateData;
 }
 
-Axis CalcAxis::getAxis() const {
+Axis AxisCalculator::getAxis() const {
     QVector3D x, y, z;
     x = {coordinateData[3] - coordinateData[0],
          coordinateData[4] - coordinateData[1],

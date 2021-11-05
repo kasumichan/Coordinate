@@ -2,23 +2,23 @@
 // Created by dell on 2021/9/7.
 //
 
-#ifndef COORDINATE_CALCAXIS_H
-#define COORDINATE_CALCAXIS_H
+#ifndef COORDINATE_AXISCALCULATOR_H
+#define COORDINATE_AXISCALCULATOR_H
 
 #include "../Enum/InputType.h"
 #include "../Util/Axis.h"
 
-class CalcAxis {
+class AxisCalculator {
 private:
     InputType inputType;
     float *coordinateData;
 public:
 
-    CalcAxis(InputType _inputType, float *coordinateData);
+    AxisCalculator(InputType _inputType, float *coordinateData);
 
     Axis getAxis() const;
 
 };
 
 
-#endif //COORDINATE_CALCAXIS_H
+#endif //COORDINATE_AXISCALCULATOR_H

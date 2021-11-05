@@ -5,8 +5,8 @@
 #include "MainWindow.h"
 #include "InputDialog.h"
 #include "../IO/ElementInfoReader.h"
-#include "../Core/CalcAxis.h"
-#include "../Core/SetAxis.h"
+#include "../Core/AxisCalculator.h"
+#include "../Core/AxisSetter.h"
 #include "../IO/AxisInfoWriter.h"
 #include <QVBoxLayout>
 #include <QMessageBox>
@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     initUI();
     initLayout();
+    createOutputFile();
     addListener();
 }
 
@@ -173,17 +174,25 @@ void MainWindow::on_confirmBtn_clicked() {
             break;
     }
 
-    SetAxis{elementPtrList.at(currentRowIndex), setAxisMethod, axis};
+    AxisSetter axisSetter{elementPtrList.at(currentRowIndex), setAxisMethod, axis};
+    QVector<Axis> axisList = axisSetter.setAxis();
+    QVector<Axis> unsetAxisList;
+    for (Axis &_axis: axisList) {
+        if (axisSet.find(_axis) == axisSet.end()) {
+            unsetAxisList.append(_axis);
+            axisSet.insert(_axis);
+        }
+    }
     elementInfoTable->setItem(currentRowIndex, 3,
-                              new QTableWidgetItem(elementPtrList.at(currentRowIndex)->getAxis().toString()));
-    AxisInfoWriter axisInfoWriter(elementPtrList);
+                              new QTableWidgetItem(elementPtrList.at(currentRowIndex)->getCentroidAxis().toString()));
+    AxisInfoWriter axisInfoWriter(unsetAxisList);
     axisInfoWriter.write();
 
 }
 
 
 void MainWindow::updateData(float *data) {
-    CalcAxis calcAxis(inputType, data);
+    AxisCalculator calcAxis(inputType, data);
     axis = calcAxis.getAxis();
 }
 
@@ -215,5 +224,15 @@ void MainWindow::on_readBtn_clicked() {
 void MainWindow::on_plotBtn_clicked() {
     canvas->setElementPtrList(elementPtrList);
     canvas->show();
+}
+
+void MainWindow::createOutputFile(const QString &fileName) {
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly)) {
+        qDebug() << "error";
+        return;
+    }
+    file.write("NodeID\tX Y Z UX UY UZ VX VY VZ WX WY WZ\n");
+    file.close();
 }
 

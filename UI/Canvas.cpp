@@ -23,7 +23,7 @@ void Canvas::paintEvent(QPaintEvent *event) {
     for (auto &elementPointer: elementPtrList) {
         QVector<Point> vertexList = elementPointer->getPointList();
         QVector<QVector<int>> elementList = elementPointer->getElementList();
-        Axis axis = elementPointer->getAxis();
+        Axis axis = elementPointer->getCentroidAxis();
         draw(vertexList, elementList, axis, painter);
     }
 }

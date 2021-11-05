@@ -30,12 +30,12 @@ Point Hexahedron::centroid() const {
                                              pointList[order[3]]};
                    });
 
-    return std::accumulate(tetrPointList.cbegin(), tetrPointList.cend(), Point{0, 0, 0},
+    return std::accumulate(tetrPointList.cbegin(), tetrPointList.cend(), Point{0, 0, 0, 0},
                            [](Point a, const QVector<Point> &b) {
                                return a + Tetrahedron(b).centroid() * Tetrahedron(b).size();
                            }) /
            std::accumulate(tetrPointList.cbegin(), tetrPointList.cend(), 0,
-                           [](float a, const QVector<Point>& b) { return a + Tetrahedron(b).size(); });
+                           [](float a, const QVector<Point> &b) { return a + Tetrahedron(b).size(); });
 }
 
 float Hexahedron::size() const {

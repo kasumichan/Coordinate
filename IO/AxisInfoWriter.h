@@ -10,10 +10,10 @@
 
 class AxisInfoWriter {
 private:
-    QVector<Element *> elementPtrList;
+    QVector<Axis> axisList;
 public:
 
-    explicit AxisInfoWriter(const QVector<Element *> &_elementPtrList);
+    explicit AxisInfoWriter(const QVector<Axis> &_axisList);
 
     void write(const QString &fileName = "../Data/output.txt");
 

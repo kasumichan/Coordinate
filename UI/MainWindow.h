@@ -10,6 +10,7 @@
 #include <QPushButton>
 #include <QTableWidget>
 #include <QLabel>
+#include <set>
 #include "../Element/Element.h"
 #include "../Enum/InputType.h"
 #include "../Enum/SetAxisMethod.h"
@@ -21,6 +22,7 @@ Q_OBJECT
 private:
     int currentRowIndex;
     Axis axis;
+    std::set<Axis> axisSet;
     QVector<Element *> elementPtrList;
     Canvas *canvas;
 
@@ -54,6 +56,8 @@ public:
     void updateTableInfo();
 
     void addListener();
+
+    void createOutputFile(const QString &fileName = "../Data/output.txt");
 
 
 private slots:

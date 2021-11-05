@@ -19,6 +19,8 @@ public:
 
     Axis(const Point &_base, const QVector3D &_x, const QVector3D &_y, const QVector3D &_z);
 
+    bool operator<(const Axis &axis) const;
+
     Point getBase() const;
 
     void setBase(const Point &_point);

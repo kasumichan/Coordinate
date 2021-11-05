@@ -26,7 +26,6 @@ void ElementInfoReader::read(const QString &fileName) {
 }
 
 
-
 void ElementInfoReader::processLine(const std::string &line) {
     QVector<Point> pointList;
     QVector<std::string> res;
@@ -37,21 +36,21 @@ void ElementInfoReader::processLine(const std::string &line) {
         res.push_back(result);
     }
     if (res[0] == "NODE") {
-        node[res[1]] = {std::stof(res[2]), std::stof(res[3]), std::stof(res[4])};
+        node[res[1]] = {std::stof(res[2]), std::stof(res[3]), std::stof(res[4]), std::stof(res[1])};
     } else {
         if (res[0] == "SHELL") {
             for (int i = 2; i < 5; ++i) {
-                pointList.push_back(Point(node[res[i]][0], node[res[i]][1], node[res[i]][2]));
+                pointList.push_back(Point(node[res[i]][0], node[res[i]][1], node[res[i]][2], node[res[i]][3]));
             }
             elementPtrList.push_back(new Triangle(pointList));
         } else if (res[0] == "TETR4") {
             for (int i = 2; i < 6; ++i) {
-                pointList.push_back(Point(node[res[i]][0], node[res[i]][1], node[res[i]][2]));
+                pointList.push_back(Point(node[res[i]][0], node[res[i]][1], node[res[i]][2], node[res[i]][3]));
             }
             elementPtrList.push_back(new Tetrahedron(pointList));
         } else {
             for (int i = 2; i < 10; ++i) {
-                pointList.push_back(Point(node[res[i]][0], node[res[i]][1], node[res[i]][2]));
+                pointList.push_back(Point(node[res[i]][0], node[res[i]][1], node[res[i]][2], node[res[i]][3]));
             }
             elementPtrList.push_back(new Hexahedron(pointList));
         }
