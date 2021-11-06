@@ -22,7 +22,7 @@ Q_OBJECT
 private:
     int currentRowIndex;
     Axis axis;
-    std::set<Axis> axisSet;
+    QVector<Axis> axisSet;
     QVector<Element *> elementPtrList;
     Canvas *canvas;
 
@@ -43,6 +43,7 @@ private:
 
     QPushButton *inputBtn;
     QPushButton *confirmBtn;
+    QPushButton *outputBtn;
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
@@ -57,7 +58,6 @@ public:
 
     void addListener();
 
-    void createOutputFile(const QString &fileName = "../Data/output.txt");
 
 
 private slots:
@@ -75,6 +75,8 @@ private slots:
     void on_confirmBtn_clicked();
 
     void on_elementInfoTable_clicked();
+
+    void on_outputBtn_clicked();
 
     void updateData(float *data);
 

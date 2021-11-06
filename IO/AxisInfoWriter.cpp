@@ -10,10 +10,11 @@
 void AxisInfoWriter::write(const QString &fileName) {
 
     QFile file(fileName);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Append)) {
+    if (!file.open(QIODevice::WriteOnly)) {
         qDebug() << "error";
         return;
     }
+    file.write("NodeID\tX Y Z UX UY UZ VX VY VZ WX WY WZ\n");
     std::stringstream ss;
     ss.precision(6);
     ss.setf(std::ios::fixed);

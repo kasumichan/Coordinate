@@ -32,10 +32,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     inputBtn = new QPushButton(this);
     confirmBtn = new QPushButton(this);
+    outputBtn = new QPushButton(this);
 
     initUI();
     initLayout();
-    createOutputFile();
     addListener();
 }
 
@@ -68,6 +68,7 @@ void MainWindow::initUI() {
 
     inputBtn->setText("Input Data");
     confirmBtn->setText("Apply");
+    outputBtn->setText("Output to file");
 
 }
 
@@ -92,6 +93,7 @@ void MainWindow::initLayout() {
     auto *bottomLayout = new QHBoxLayout();
     bottomLayout->addWidget(inputBtn);
     bottomLayout->addWidget(confirmBtn);
+    bottomLayout->addWidget(outputBtn);
 
     mainLayout->addLayout(bottomLayout);
 
@@ -109,6 +111,7 @@ void MainWindow::addListener() {
     connect(readBtn, SIGNAL(clicked(bool)), this, SLOT(on_readBtn_clicked()));
     connect(inputBtn, SIGNAL(clicked(bool)), this, SLOT(on_inputBtn_clicked()));
     connect(confirmBtn, SIGNAL(clicked(bool)), this, SLOT(on_confirmBtn_clicked()));
+    connect(outputBtn, SIGNAL(clicked(bool)), this, SLOT(on_outputBtn_clicked()));
 
 }
 
@@ -176,17 +179,20 @@ void MainWindow::on_confirmBtn_clicked() {
 
     AxisSetter axisSetter{elementPtrList.at(currentRowIndex), setAxisMethod, axis};
     QVector<Axis> axisList = axisSetter.setAxis();
-    QVector<Axis> unsetAxisList;
+    elementInfoTable->setItem(currentRowIndex, 3, new QTableWidgetItem(
+            elementPtrList.at(currentRowIndex)->getCentroidAxis().toString()));
     for (Axis &_axis: axisList) {
-        if (axisSet.find(_axis) == axisSet.end()) {
-            unsetAxisList.append(_axis);
-            axisSet.insert(_axis);
+        auto iter = axisSet.begin();
+        for (; iter != axisSet.end(); ++iter) {
+            if ((*iter).getBase().getID() == _axis.getBase().getID()) {
+                *iter = _axis;
+                break;
+            }
+        }
+        if (iter == axisSet.end()) {
+            axisSet.append(_axis);
         }
     }
-    elementInfoTable->setItem(currentRowIndex, 3,
-                              new QTableWidgetItem(elementPtrList.at(currentRowIndex)->getCentroidAxis().toString()));
-    AxisInfoWriter axisInfoWriter(unsetAxisList);
-    axisInfoWriter.write();
 
 }
 
@@ -226,13 +232,9 @@ void MainWindow::on_plotBtn_clicked() {
     canvas->show();
 }
 
-void MainWindow::createOutputFile(const QString &fileName) {
-    QFile file(fileName);
-    if (!file.open(QIODevice::WriteOnly)) {
-        qDebug() << "error";
-        return;
-    }
-    file.write("NodeID\tX Y Z UX UY UZ VX VY VZ WX WY WZ\n");
-    file.close();
+
+void MainWindow::on_outputBtn_clicked() {
+    AxisInfoWriter axisInfoWriter(axisSet);
+    axisInfoWriter.write();
 }
 
